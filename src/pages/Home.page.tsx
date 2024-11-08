@@ -1,7 +1,14 @@
-import React from "react";
+import React from 'react'
+import CardSection from '../components/home-components/card-section.component'
 
 const HomePage: React.FC = () => {
-  return <div></div>;
-};
+    return (
+        <section className="section">
+            <h2>Productos</h2>
+            <CardSection productType="Diary" />
+            <CardSection productType="Notebook" />
+        </section>
+    )
+}
 
-export default HomePage;
+export default HomePage

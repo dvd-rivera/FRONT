@@ -1,0 +1,52 @@
+.nav-container
+    width: 100%
+    background-color: $c-principal-soft
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    +flex-around
+    height: 70px
+    // box-shadow: 0 0 12px rgba(0, 0, 0, 0.2)
+
+    .brand-container
+        width: 200px
+        height: 40px
+        font-size: 30px
+        font-style: italic
+        font-weight: 600
+        +flex-center
+
+        img
+            max-height: 100%
+            min-width: 50px
+
+
+    .menu-container
+        +flex-center
+        gap: 20px
+
+        a
+            font-weight: 600
+            text-decoration: none
+            color: black
+            &:hover
+                color: #f19600
+                cursor: pointer
+
+            &.active
+                color: white
+
+                &:hover
+                    cursor: default
+
+        .cartValue
+            margin-left: 12px
+            min-width: 100px
+            display: inline-block
+
+
+    a
+        +flex-center
+
+            

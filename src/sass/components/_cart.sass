@@ -1,0 +1,104 @@
+.cart-section
+    width: 100%
+    +flex-center
+    margin-top: 80px
+
+    h2
+        font-size: 24px
+        width: 100%
+        margin-bottom: 20px
+        color: #555
+        text-align: center
+
+    .cart-header, .cart-items, .cart-item
+        width: 100%
+        +flex-between
+
+    .cart-item
+        margin-top: 12px
+
+    .cart-header
+        padding: 10px 0
+        border-bottom: 1px solid #ddd
+
+
+    .cart-header
+        font-weight: bold
+        color: #555
+        border-bottom: 2px solid #ddd
+
+    .cart-items
+        margin-bottom: 20px
+
+    .product-info
+        display: flex
+        align-items: center
+        flex: 2
+
+    .product-thumbnail img
+        width: 50px
+        height: 50px
+        margin-right: 10px
+
+    .product-theme
+        font-size: 0.9em
+        color: #777
+
+
+    .product-quantity
+        display: flex
+        align-items: center
+        gap: 5px
+
+    .product-quantity button
+        width: 30px
+        height: 30px
+        font-size: 18px
+        text-align: center
+        cursor: pointer
+        background-color: #f0f0f0
+        border: 1px solid #ddd
+        border-radius: 5px
+
+    .cart-total
+        width: 100%
+        font-size: 18px
+        text-align: right
+        font-weight: bold
+        margin-top: 20px
+
+    .cart-footer
+        text-align: center
+        margin-top: 20px
+        color: #777
+
+    .checkout-button
+        padding: 10px 20px
+        font-size: 16px
+        border: 1px solid #555
+        border-radius: 20px
+        background-color: white
+        cursor: pointer
+
+
+    .product-info-header, .product-info
+        width: 35%
+        text-align: left
+
+
+    .product-id-header, .product-id
+        width: 10%
+        text-align: center
+
+
+    .product-price-header, .product-price
+        width: 15%
+        text-align: center
+
+    .product-quantity-header, .product-quantity
+        width: 20%
+
+
+    .product-total-header, .product-total
+        width: 20%
+        text-align: right
