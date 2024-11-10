@@ -17,25 +17,29 @@ const ProductDetailPage: React.FC = () => {
 
   const addToCart = () => {
     if (product && cartContext) {
-      const { productsInCart, setProductsInCart } = cartContext
-      const existingProductIndex = productsInCart.findIndex((p) => p.id === product.id)
+      if (quantity < product.stock) {  // Verificar que no exceda el stock
+        const { productsInCart, setProductsInCart } = cartContext
+        const existingProductIndex = productsInCart.findIndex((p) => p.id === product.id)
 
-      if (existingProductIndex >= 0) {
-        const updatedProducts = [...productsInCart]
-        updatedProducts[existingProductIndex].cant += 1
-        setProductsInCart(updatedProducts)
-      } else {
-        const productInCart = {
-          id: product.id,
-          name: product.type + ' ' + (product.theme?.name[0] || 'Producto sin descripción'),
-          price: product.price,
-          cant: 1,
-          img: product.img,
+        if (existingProductIndex >= 0) {
+          const updatedProducts = [...productsInCart]
+          updatedProducts[existingProductIndex].cant += 1
+          setProductsInCart(updatedProducts)
+        } else {
+          const productInCart = {
+            id: product.id,
+            name: product.type + ' ' + (product.theme?.name[0] || 'Producto sin descripción'),
+            price: product.price,
+            cant: 1,
+            img: product.img,
+          }
+          setProductsInCart([...productsInCart, productInCart])
         }
-        setProductsInCart([...productsInCart, productInCart])
-      }
 
-      setQuantity(quantity + 1)
+        setQuantity(quantity + 1)
+      } else {
+        alert(`No puedes agregar más de ${product.stock} unidades de este producto.`)
+      }
     }
   }
 
@@ -73,7 +77,7 @@ const ProductDetailPage: React.FC = () => {
               <p className='font-bold my-3'>Tipo: <span className='text-sky-400 '>{product.type}</span></p>
               <p className='font-bold text-2xl'>${product.price}</p>
               <p className='text-xl'><span className='font-bold'>Stock: </span>{product.stock}</p>
-              <div className="flex w-fit rounded-md overflow-hidden my-4">
+              <div className="flex w-fit rounded-md overflow-hidden my-4 bg-white">
                 <button className='bg-sky-500 px-4 py-2' onClick={removeFromCart}>-</button>
                 <p className='px-4 py-2'>{quantity}</p>
                 <button className='bg-sky-500 px-4 py-2' onClick={addToCart}>+</button>
