@@ -1,60 +1,81 @@
-import React, { useState } from 'react';
-import { Menu, MenuItem } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import React, { useEffect, useState } from 'react'
+import { Menu, MenuItem } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
+import { useNavigate } from 'react-router-dom'
+
+interface Category {
+    id: string
+    name: string
+    dbName: string
+}
 
 const CategoriesMenu: React.FC = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+    const [categories, setCategories] = useState<Category[]>([])
+    const open = Boolean(anchorEl)
+    const navigate = useNavigate()
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget)
+    }
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+    const handleClose = () => {
+        setAnchorEl(null)
+    }
 
-  const menuItems = [
-    { label: 'Categoría 1', onClick: () => console.log('Categoría 1') },
-    { label: 'Categoría 2', onClick: () => console.log('Categoría 2') },
-    { label: 'Categoría 3', onClick: () => console.log('Categoría 3') },
-    { label: 'Categoría 4', onClick: () => console.log('Categoría 4') },
-    { label: 'Categoría 5', onClick: () => console.log('Categoría 5') },
-  ];
+    const loadCategories = async () => {
+        try {
+            const response = await fetch('src/assets/categorias.json')
+            const data = await response.json()
+            setCategories(data.categorias)
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
-  const buttonCategories = 'transition-all border-2 bg-fuchsia-400 hover:bg-fuchsia-500 flex p-3 rounded';
+    useEffect(() => {
+        loadCategories()
+    }, [])
 
-  return (
-    <div>
-      <button
-        className={buttonCategories}
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        <p className='mr-4 text-white font-bold'>Categorias</p>
-        <MenuIcon className='text-white'></MenuIcon>
-      </button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        {menuItems.map((item, index) => (
-          <MenuItem key={index} onClick={() => { handleClose(); item.onClick() }}>
-            {item.label}
-          </MenuItem>
-        ))}
-      </Menu>
+    const buttonCategories =
+        'transition-all border-2 bg-fuchsia-400 hover:bg-fuchsia-500 flex p-3 rounded'
 
-    </div>
-  );
-};
+    return (
+        <div>
+            <button
+                className={buttonCategories}
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+            >
+                <p className="mr-4 text-white font-bold">Categorias</p>
+                <MenuIcon className="text-white" />
+            </button>
+            <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                }}
+            >
+                {categories.map((item) => (
+                    <MenuItem
+                        key={item.id}
+                        onClick={() => {
+                            handleClose()
+                            navigate(`/category/${item.dbName}`)
+                        }}
+                    >
+                        {item.name}
+                    </MenuItem>
+                ))}
+            </Menu>
+        </div>
+    )
+}
 
-export default CategoriesMenu;
+export default CategoriesMenu

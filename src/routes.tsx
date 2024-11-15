@@ -21,6 +21,7 @@ const routes: RouteConfig[] = [
     { path: '/maintainer', element: <MaintainerPage></MaintainerPage> },
     { path: '/new-product', element: <NewProductPage></NewProductPage> },
     { path: '/product-detail/:id', element: <ProductDetailPage></ProductDetailPage> },
+    { path: '/category/:id', element: <ProductDetailPage></ProductDetailPage> },
     { path: '/profile', element: <ProfilePage></ProfilePage> },
     { path: '/register', element: <RegisterPage></RegisterPage> },
     { path: '/personalizados', element: <PersonalizedPage></PersonalizedPage> },
