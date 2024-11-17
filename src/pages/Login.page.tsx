@@ -1,7 +1,11 @@
-import React from "react";
+import React from 'react'
+import { useContext } from 'react'
+import { UserContext } from '../context/user.context'
 
 const LoginPage: React.FC = () => {
-  return <div></div>;
-};
+    const user = useContext(UserContext)
+    const login = user?.login
+    return <div></div>
+}
 
-export default LoginPage;
+export default LoginPage

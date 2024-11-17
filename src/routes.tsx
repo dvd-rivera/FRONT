@@ -1,5 +1,6 @@
 // routes.js
 import CartPage from './pages/Cart.page'
+import CategoriesPage from './pages/Categories.page'
 import HomePage from './pages/Home.page'
 import LoginPage from './pages/Login.page'
 import MaintainerPage from './pages/Maintainer.page'
@@ -21,7 +22,7 @@ const routes: RouteConfig[] = [
     { path: '/maintainer', element: <MaintainerPage></MaintainerPage> },
     { path: '/new-product', element: <NewProductPage></NewProductPage> },
     { path: '/product-detail/:id', element: <ProductDetailPage></ProductDetailPage> },
-    { path: '/category/:id', element: <ProductDetailPage></ProductDetailPage> },
+    { path: '/category/:id', element: <CategoriesPage></CategoriesPage> },
     { path: '/profile', element: <ProfilePage></ProfilePage> },
     { path: '/register', element: <RegisterPage></RegisterPage> },
     { path: '/personalizados', element: <PersonalizedPage></PersonalizedPage> },
