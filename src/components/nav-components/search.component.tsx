@@ -12,11 +12,12 @@ const SearchComponent: React.FC = () => {
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: '#f0f0f0',
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: '#e0e0e0',
   },
   marginLeft: 0,
+  transition: '.3s all',
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
@@ -43,9 +44,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
-      width: '12ch',
+      width: '20ch',
       '&:focus': {
-        width: '20ch',
+        width: '25ch',
       },
     },
   },

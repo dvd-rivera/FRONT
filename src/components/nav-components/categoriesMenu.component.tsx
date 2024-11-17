@@ -38,7 +38,7 @@ const CategoriesMenu: React.FC = () => {
     }, [])
 
     const buttonCategories =
-        'transition-all border-2 bg-fuchsia-400 hover:bg-fuchsia-500 flex p-3 rounded'
+        'transition-all flex p-3 rounded'
 
     return (
         <div>
@@ -50,8 +50,8 @@ const CategoriesMenu: React.FC = () => {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
             >
-                <p className="mr-4 text-white font-bold">Categorias</p>
-                <MenuIcon className="text-white" />
+                <p className="mr-4 font-bold">Categorias</p>
+                <MenuIcon />
             </button>
             <Menu
                 id="basic-menu"
@@ -74,6 +74,19 @@ const CategoriesMenu: React.FC = () => {
                     </MenuItem>
                 ))}
             </Menu>
+            <div className="block md:hidden">
+                {categories.map((item) => (
+                    <MenuItem
+                        key={item.id}
+                        onClick={() => {
+                            handleClose()
+                            navigate(`/category/${item.dbName}`)
+                        }}
+                    >
+                        {item.name}
+                    </MenuItem>
+                ))}
+            </div>
         </div>
     )
 }
