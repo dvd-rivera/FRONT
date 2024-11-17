@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Menu, MenuItem } from '@mui/material'
+import { Menu, MenuItem, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useNavigate } from 'react-router-dom'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface Category {
     id: string
@@ -38,10 +39,10 @@ const CategoriesMenu: React.FC = () => {
     }, [])
 
     const buttonCategories =
-        'transition-all flex p-3 rounded'
+        'transition-all hidden lg:flex p-3 rounded'
 
     return (
-        <div>
+        <div >
             <button
                 className={buttonCategories}
                 id="basic-button"
@@ -74,18 +75,32 @@ const CategoriesMenu: React.FC = () => {
                     </MenuItem>
                 ))}
             </Menu>
-            <div className="block md:hidden">
-                {categories.map((item) => (
-                    <MenuItem
-                        key={item.id}
-                        onClick={() => {
-                            handleClose()
-                            navigate(`/category/${item.dbName}`)
-                        }}
+            <div className="block lg:hidden ">
+
+                <Accordion elevation={0}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        className='shadow-none'
                     >
-                        {item.name}
-                    </MenuItem>
-                ))}
+                        <Typography>Categorías</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        {categories.map((item) => (
+                            <MenuItem
+                                key={item.id}
+                                onClick={() => {
+                                    handleClose()
+                                    navigate(`/category/${item.dbName}`)
+                                }}
+                            >
+                                {item.name}
+                            </MenuItem>
+                        ))}
+                    </AccordionDetails>
+                </Accordion>
+
             </div>
         </div>
     )
