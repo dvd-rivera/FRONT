@@ -12,11 +12,14 @@ const CategoriesPage: React.FC = ({}) => {
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
     const { productType } = useParams<{ productType: string }>()
 
+    console.log(productType)
+
     useEffect(() => {
         // Filtrar productos según el tipo
         if (productType) {
             const filtered = products.filter((product) => product.type === productType)
             setFilteredProducts(filtered)
+            console.log(productType)
         }
         console.log(productType)
     }, [products, productType])
