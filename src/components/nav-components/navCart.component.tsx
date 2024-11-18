@@ -14,7 +14,7 @@ const NavCartComponent: React.FC = () => {
 
     const totalItems = productsInCart.reduce((total, product) => total + product.cant, 0)
 
-    const qtyCart = 'absolute bg-white rounded-xl py-1 px-2 text-xs top-0 right-0'
+    const qtyCart = 'absolute bg-slate-200 rounded-xl py-1 px-2 text-xs top-0 right-0'
 
     return (
         <div className="relative p-3">
