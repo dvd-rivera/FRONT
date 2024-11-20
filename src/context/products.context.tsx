@@ -1,28 +1,37 @@
-import React, { useEffect } from 'react'
-import { createContext, useState } from 'react'
-import { Product } from '../models/productos.interface'
+import React, { createContext, useState, useEffect } from 'react'
+import { ProductDefault } from '../models/productos.interface'
 
 interface ProductContextType {
-    products: Product[]
-    setProducts: (Products: Product[]) => void
+    products: ProductDefault[]
+    setProducts: React.Dispatch<React.SetStateAction<ProductDefault[]>>
     isLoadingAllProducts: boolean
+    loadAllProducts: () => void
 }
 
 export const ProductContext = createContext<ProductContextType | undefined>(undefined)
 
 const ProductContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [products, setProducts] = useState<Product[]>([])
-    const [isLoadingAllProducts, setIsLoadingAllProducts] = useState(false)
+    const [products, setProducts] = useState<ProductDefault[]>([])
+    const [isLoadingAllProducts, setIsLoadingAllProducts] = useState(true)
 
     const loadAllProducts = async () => {
         setIsLoadingAllProducts(true)
         try {
-            const response = await fetch('src/assets/products.json') //cambiar por la API que trae todos los productos
+            const response = await fetch('http://localhost:3000/happyart/api/v1/products', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
             const data = await response.json()
-            console.log('Datos obtenidos:', data.products)
-            setProducts(data.products)
-        } catch (e) {
-            console.error(e)
+
+            if (data) {
+                setProducts(data)
+            } else {
+                console.error('La respuesta de la API no contiene el formato esperado.')
+            }
+        } catch (error) {
+            console.error('Error al cargar los productos:', error)
         } finally {
             setIsLoadingAllProducts(false)
         }
@@ -33,7 +42,14 @@ const ProductContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }, [])
 
     return (
-        <ProductContext.Provider value={{ products, setProducts, isLoadingAllProducts }}>
+        <ProductContext.Provider
+            value={{
+                products,
+                setProducts,
+                isLoadingAllProducts,
+                loadAllProducts,
+            }}
+        >
             {children}
         </ProductContext.Provider>
     )

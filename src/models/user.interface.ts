@@ -17,7 +17,8 @@ export interface address {
 
 export interface User {
     id: number
-    mail: string
+    firstName: string
+    email: string
     role: 'user' | 'admin'
     token: string
 }
@@ -30,4 +31,15 @@ export interface dbAddress {
 export interface UserLoginData {
     email: string
     password: string
+}
+
+export interface UserReconected {
+    userid: number
+    firstname: string
+    lastname: string
+    email: string
+    password: string
+    phone: number
+    addresses: Array<address>
+    role: 'user' | 'admin'
 }

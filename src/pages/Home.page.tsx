@@ -5,8 +5,8 @@ const HomePage: React.FC = () => {
     return (
         <section className="section">
             <h2>Productos</h2>
-            <CardSection productType="Diary" />
-            <CardSection productType="Notebook" />
+            <CardSection productType="Agenda" />
+            <CardSection productType="Cuaderno" />
         </section>
     )
 }
