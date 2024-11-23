@@ -2,6 +2,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { User, UserLoginData, UserReconected, UserRegisterData } from '../models/user.interface'
 import { useNavigate } from 'react-router-dom'
+import BASE_URL from '../../env'
 
 interface UserContextType {
     user: User | null
@@ -12,6 +13,7 @@ interface UserContextType {
     register: (userRegisterData: UserRegisterData) => void
     isLoadingLogin: boolean
     error: string | null
+    setError: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 export const UserContext = createContext<UserContextType | undefined>(undefined)
@@ -29,7 +31,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setIsLoadingLogin(true)
             setError(null) // Limpiar errores previos
             // Realizar el request al backend
-            const response = await fetch('http://localhost:3000/happyart/api/v1/users/login', {
+            const response = await fetch(`${BASE_URL}/happyart/api/v1/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -80,7 +82,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setIsLoadingLogin(true)
             setError(null)
 
-            const response = await fetch('http://localhost:3000/happyart/api/v1/users', {
+            const response = await fetch(`${BASE_URL}/happyart/api/v1/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,7 +96,6 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 throw new Error(errorResponse.message || 'Error en el registro')
             }
 
-            const data = await response.json()
             setIsAuthenticated(true)
             navigate('/')
         } catch (error: any) {
@@ -131,7 +132,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setError(null) // Limpiar errores previos
 
                 // Realizar la solicitud al backend
-                const response = await fetch(`http://localhost:3000/happyart/api/v1/users/${id}`, {
+                const response = await fetch(`${BASE_URL}/happyart/api/v1/users/${id}`, {
                     method: 'GET',
                     headers: {
                         Authorization: token,
@@ -182,6 +183,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 login,
                 logout,
                 error,
+                setError,
                 register,
                 reconect,
             }}

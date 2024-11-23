@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import { CartContext } from '../../context/cart.context'
 
@@ -17,7 +16,10 @@ const NavCartComponent: React.FC = () => {
     const qtyCart = 'absolute bg-slate-200 rounded-xl py-1 px-2 text-xs top-0 right-0'
 
     return (
-        <div className="relative p-3">
+        <div
+            className="relative p-2 hover:bg-rose-100 hover:text-zinc-950 rounded"
+            style={{ maxHeight: 48 }}
+        >
             <ShoppingCartIcon style={{ fontSize: 32, color: '#000000' }} />
             {totalItems > 0 && <span className={qtyCart}>{totalItems}</span>}
         </div>

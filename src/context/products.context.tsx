@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { ProductDefault } from '../models/productos.interface'
+import BASE_URL from '../../env'
 
 interface ProductContextType {
     products: ProductDefault[]
@@ -17,7 +18,7 @@ const ProductContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const loadAllProducts = async () => {
         setIsLoadingAllProducts(true)
         try {
-            const response = await fetch('http://localhost:3000/happyart/api/v1/products', {
+            const response = await fetch(`${BASE_URL}/happyart/api/v1/products`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,4 +1,6 @@
 .maintainer-section
+    .maintainer-container
+        gap: 12px
     .maintiner-header
         padding: 20px
         width: 100%
@@ -29,15 +31,121 @@
 
             button
                 background-color: $c-principal
+                color: white
                 padding: 8px 16px
                 border-radius: 12px
-                color: white
                 font-weight: 700
                 font-size: 14px
+                outline: 2px solid $c-principal
+                background-color: white
+                color: $c-principal
                 +md
                     font-size: 14px
 
                 &:hover
-                    background-color: white
-                    outline: 2px solid $c-principal
+                    background-color: $c-principal
+                    color: white
+                    outline: none
+
+    .maintainer-body
+        background-color: white
+        border-radius: 12px
+        width: 100%
+        padding: 20px
+        gap: 12px
+        +flex-between
+        +xl
+            +flex-start
+
+
+        .categories-container, .products-container
+            text-align: left
+            max-height: 400px
+            overflow: scroll
+            overflow-x: hidden
+            padding-right: 20px
+            padding-left: 12px
+            padding: 20px 20px 20px 12px
+            border-radius: 8px
+            align-self: stretch
+            width: 48%
+            +xl
+                width: 20%
+
+                         
+            
+            .category-selector, .product-card
+                padding: 4px 12px
+                width: 100%
+                overflow: hidden
+                white-space: nowrap
+                text-overflow: ellipsis
+                outline: 1px solid rgba(0,0,0,0.1)
+                cursor: pointer
+                margin: 4px 0
+                border-radius: 8px
+                font-size: 14px
+
+                &:hover
+                    background-color: $c-principal-soft
+                    outline: none
+
+
+                &.selected
+                    background-color: $c-principal
+                    color: white
+                    outline: none
+                    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2)
+                    font-weight: 700
+
+
+
+                p
+                    overflow: hidden
+                    white-space: nowrap
+                    text-overflow: ellipsis
+
+        .config-container
+            padding: 20px
+            width: 100%
+            align-self: stretch
+            overflow-y: scroll
+            background-color: #eee
+            +xl
+                width: 50%
+                flex-grow: 1
+
+            .images-container
+                width: 100%
+                padding: 12px
+                overflow-x: scroll
+                background-color: white
+                display: flex
+                gap: 12px
+                white-space: nowrap
+                
+
+                .img-container
+                    flex: 0 0 auto
+                    width: 150px
+                    height: 150px
+                    background-color: #fff
+                    overflow: hidden
+                    border-radius: 8px
+
+                .add-img
+                    flex: 0 0 auto
+                    width: 150px
+                    height: 150px
+                    background-color: #ddd
+                    overflow: hidden
+                    +flex-center
+                    font-size: 48px
+                    font-weight: 900
                     color: $c-principal
+                    cursor: pointer
+                    border-radius: 8px
+
+                    &:hover
+                        background-color: $c-principal
+                        color: white

@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { Category } from '../models/productos.interface'
+import BASE_URL from '../../env'
 
 interface CategoriesContextType {
     categories: Array<Category>
@@ -12,7 +13,7 @@ const CategoriesContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     const getCategories = async () => {
         try {
-            const response = await fetch('http://localhost:3000/happyart/api/v1/products/pTypes', {
+            const response = await fetch(`${BASE_URL}/happyart/api/v1/products/pTypes`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 const LoginPage: React.FC = () => {
     const user = useContext(UserContext)
     const login = user?.login
+    const error = user?.error // Obtenemos el error del contexto
+    const setError = user?.setError // Necesario para limpiar el error
     const navigate = useNavigate()
 
     // Estados para almacenar el correo y la contraseña
@@ -20,6 +22,13 @@ const LoginPage: React.FC = () => {
             login({ email, password })
         } else {
             console.error('Login function is not defined in UserContext.')
+        }
+    }
+
+    // Función para cerrar el modal y limpiar el error
+    const handleCloseModal = () => {
+        if (setError) {
+            setError(null) // Limpiar el error en el contexto
         }
     }
 
@@ -89,6 +98,22 @@ const LoginPage: React.FC = () => {
                     </p>
                 </div>
             </div>
+
+            {/* Modal para mostrar errores */}
+            {error && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                        <h2 className="text-xl font-bold text-red-600 mb-4">¡Error!</h2>
+                        <p className="text-gray-800">{error}</p>
+                        <button
+                            onClick={handleCloseModal} // Cerrar el modal y limpiar el error
+                            className="mt-4 w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            )}
         </section>
     )
 }
