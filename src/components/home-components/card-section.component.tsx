@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ProductContext } from '../../context/products.context';
 import { CartContext } from '../../context/cart.context';
 import { ProductDefault } from '../../models/productos.interface';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import { Link } from 'react-router-dom';
 
 interface ProductCardsProps {
@@ -91,36 +92,42 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
               <Link
                 to={`/product-detail/${product.product_id}`}
                 key={product.product_id}
-                className="product-card w-3/12 mx-5 my-3 bg-white shadow-md rounded-lg overflow-hidden transition-transform transform hover:scale-105"
+                className="product-card w-6/12 lg:w-3/12 mx-2 my-2 bg-white transition-shadow transform shadow-md hover:shadow-lg shadow-gray-500/50 hover:shadow-gray-500/50 
+  rounded-md overflow-hidden group flex flex-col justify-between"
               >
                 <div className="img-container h-48 overflow-hidden">
                   <img
                     src={product.img}
                     alt={`Imagen de ${product.theme_name?.name?.[0] || 'Producto'}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 object-top group-hover:scale-105"
                   />
                 </div>
                 <div className="product-card-body p-4">
-                  <h3 className="product-name text-lg font-semibold text-gray-800">
+                  <h3 className="product-name text-sm uppercase text-gray-400">
                     {productType}
                   </h3>
-                  <p className="product-description text-sm text-gray-600">
+                  <h2 className="product-description font-bold text-md mb-2 text-gray-600">
                     {product.description}
-                  </p>
-                  <p className="product-price text-base font-bold text-gray-900">
-                    Precio: ${product.price}
-                  </p>
+                  </h2>
                 </div>
-                <div className="flex justify-center py-2">
-                  <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      addToCart(product);
-                    }}
-                  >
-                    Agregar al carrito
-                  </button>
+                <div className="relative flex justify-between items-center px-3 py-2 group">
+                  <div className="flex w-full transition-all duration-300 group-hover:w-full">
+                    <button
+                      className="flex items-center justify-center bg-white border border-blue-500 text-blue-500 h-10 px-3 rounded transition-all duration-300 transform group-hover:w-full group-hover:bg-blue-500 group-hover:text-white focus:outline-none"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        addToCart(product);
+                      }}
+                    >
+                      <ShoppingCartIcon className="transition-colors group-hover:text-white mr-2" />
+                      <span className="hidden group-hover:inline-block transition-opacity duration-300">
+                        Agregar al carrito
+                      </span>
+                    </button>
+                  </div>
+                  <p className="product-price text-3xl font-bold text-right text-blue-500 transition-opacity duration-300 group-hover:opacity-0 group-hover:delay-300 group-hover:hidden">
+                    ${product.price.toLocaleString('es-CL')}
+                  </p>
                 </div>
               </Link>
             ))}
@@ -130,9 +137,8 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
         )}
         {open && (
           <div
-            className={`snackbar-container fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 ${
-              visible ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`snackbar-container z-20 fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0'
+              }`}
           >
             <div className="flex items-center justify-between">
               <span>{snackbarMessage}</span>
