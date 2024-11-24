@@ -17,7 +17,7 @@ const NavCartComponent: React.FC = () => {
 
     return (
         <div
-            className="relative p-2 hover:bg-rose-100 hover:text-zinc-950 rounded"
+            className="relative p-2 transition-all hover:scale-105 rounded"
             style={{ maxHeight: 48 }}
         >
             <ShoppingCartIcon style={{ fontSize: 32, color: '#000000' }} />

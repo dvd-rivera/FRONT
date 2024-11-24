@@ -1,11 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { CartContext } from '../context/cart.context'
 import { ProductContext } from '../context/products.context'
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 const CartPage: React.FC = () => {
     const cartContext = useContext(CartContext)
     const { products } = useContext(ProductContext) || { products: [] } // Usar productos para obtener el stock
+    const [isModalOpen, setModalOpen] = useState(false) // Estado para el modal
 
     if (!cartContext) {
         return <p>Error: Carrito no disponible.</p>
@@ -31,12 +37,20 @@ const CartPage: React.FC = () => {
         setProductsInCart(updatedCart)
     }
 
-    // Función para vaciar el carrito con confirmación
+    // Función para abrir el modal
+    const handleOpenModal = () => {
+        setModalOpen(true)
+    }
+
+    // Función para cerrar el modal
+    const handleCloseModal = () => {
+        setModalOpen(false)
+    }
+
+    // Función para vaciar el carrito
     const clearCart = () => {
-        const confirmClear = window.confirm("¿Estás seguro de que deseas vaciar el carrito?")
-        if (confirmClear) {
-            setProductsInCart([]) // Establece el carrito como un array vacío
-        }
+        setProductsInCart([]) // Establece el carrito como un array vacío
+        handleCloseModal() // Cerrar el modal
     }
 
     // Calcular el total general del carrito
@@ -80,9 +94,33 @@ const CartPage: React.FC = () => {
                         <strong>TOTAL</strong> ${totalCart}
                     </p>
                 </div>
-                {/* Mostrar el botón "Vaciar carro" solo si hay productos en el carrito */}
+                {/* Mostrar el botón " carro" solo si hay productos en el carrito */}
                 {productsInCart.length > 0 && (
-                    <Button variant="contained" onClick={clearCart}>Vaciar carro</Button>
+                    <>
+                        <Button variant="contained" onClick={handleOpenModal}>
+                            Vaciar carro
+                        </Button>
+                        <Dialog
+                            open={isModalOpen}
+                            onClose={handleCloseModal}
+                            aria-labelledby="vaciar-carro-title"
+                        >
+                            <DialogTitle id="vaciar-carro-title">Vaciar carrito</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    ¿Estás seguro de que deseas vaciar el carrito?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleCloseModal} color="primary">
+                                    Cancelar
+                                </Button>
+                                <Button onClick={clearCart} color="secondary" autoFocus>
+                                    Confirmar
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </>
                 )}
                 <div className="cart-footer">
                     <p>

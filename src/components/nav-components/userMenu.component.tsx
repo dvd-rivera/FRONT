@@ -26,11 +26,11 @@ const UserMenu: React.FC = () => {
     }
 
     const buttonUserMenu =
-        'transition-all hidden lg:flex p-3 rounded hover:bg-rose-100 hover:text-zinc-950'
+        'transition-all hidden lg:flex p-3 rounded  hover:text-zinc-950'
 
     if (!userStatus) {
         return (
-            <div className="login-container mx-4 transition hover:bg-rose-100 hover:text-zinc-950 px-4 rounded-md my-1 lg:my-0 lg:w-auto w-full lg:text-left text-center py-3 order-1 lg:order-last">
+            <div className="login-container mx-4 transition  hover:text-zinc-950 px-4 rounded-md my-1 lg:my-0 lg:w-auto w-full lg:text-left text-center py-3 order-1 lg:order-last">
                 <Link to="/login">Inicia sesión</Link>
             </div>
         )
@@ -150,7 +150,7 @@ const UserMenu: React.FC = () => {
                     </div>
                 </>
             ) : (
-                <div className="login-container mx-4 transition hover:bg-rose-100 hover:text-zinc-950 px-4 rounded-md my-1 lg:my-0 lg:w-auto w-full lg:text-left text-center py-3 order-1 lg:order-last">
+                <div className="login-container mx-4 transition hover:text-zinc-950 px-4 rounded-md my-1 lg:my-0 lg:w-auto w-full lg:text-left text-center py-3 order-1 lg:order-last">
                     <Link to="/login">Inicia sesión</Link>
                 </div>
             )}

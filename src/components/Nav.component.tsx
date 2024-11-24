@@ -64,7 +64,7 @@ const NavComponent: React.FC = () => {
                                 />
                             </Link>
                         </div>
-                        <div className="Categories-container rounded lg:block hover:bg-rose-100 hover:text-zinc-950">
+                        <div className="Categories-container rounded lg:block  hover:text-zinc-950">
                             <CategoriesMenu />
                         </div>
                     </div>
@@ -72,7 +72,7 @@ const NavComponent: React.FC = () => {
                         <SearchComponent />
                     </div>
 
-                    <div className="personalized-link-container mx-4 transition hover:bg-rose-100 hover:text-zinc-950 px-4 rounded-md my-1 lg:my-0 lg:w-auto w-full lg:text-left text-center py-3">
+                    <div className="personalized-link-container mx-4 transition  hover:text-zinc-950 px-4 rounded-md my-1 lg:my-0 lg:w-auto w-full lg:text-left text-center py-3">
                         <Link to="/personalizados" className="font-bold">
                             Personalizados
                         </Link>
@@ -80,7 +80,7 @@ const NavComponent: React.FC = () => {
                     <div className="flex lg:w-9/12 items-center justify-end flex-col lg:flex-row">
                         <UserMenu></UserMenu>
                         <div className="cart-container my-3 lg:my-0 order-1 lg:order-last">
-                            <Link to="/cart" className="hover:bg-rose-100 hover:text-zinc-950">
+                            <Link to="/cart" className="hover:text-zinc-950">
                                 <NavCartComponent />
                             </Link>
                         </div>

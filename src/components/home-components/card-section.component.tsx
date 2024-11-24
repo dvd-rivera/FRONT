@@ -2,8 +2,22 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ProductContext } from '../../context/products.context';
 import { CartContext } from '../../context/cart.context';
 import { ProductDefault } from '../../models/productos.interface';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+};
 
 interface ProductCardsProps {
   productType: string;
@@ -16,6 +30,8 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false); // Control para la transición
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [modalMessage, setModalMessage] = useState(''); // Mensaje para el modal
+  const [isModalOpen, setIsModalOpen] = useState(false); // Control del estado del modal
 
   useEffect(() => {
     if (isLoadingAllProducts) {
@@ -47,6 +63,15 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
     setTimeout(() => setOpen(false), 300); // Espera que termine antes de desmontar
   };
 
+  const openModal = (message: string) => {
+    setModalMessage(message);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const addToCart = (product: ProductDefault) => {
     if (!cartContext) {
       console.error('Cart context is undefined');
@@ -64,7 +89,7 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
         setProductsInCart(updatedProducts);
         handleClick(`Has agregado ${product.description} al carrito`);
       } else {
-        alert(`No puedes agregar más de ${product.stock} unidades de este producto.`);
+        openModal(`No puedes agregar más de ${product.stock} unidades de este producto.`);
       }
     } else {
       if (product.stock > 0) {
@@ -78,13 +103,13 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
         setProductsInCart([...productsInCart, productInCart]);
         handleClick(`Has agregado ${product.description} al carrito`);
       } else {
-        alert('Este producto no tiene stock disponible.');
+        openModal('Este producto no tiene stock disponible.');
       }
     }
   };
 
   return (
-    <section className="products-cards-section md:w-9/12 mx-auto  py-8">
+    <section className="products-cards-section md:w-9/12 mx-auto py-8">
       <div className="container mx-auto px-4">
         {filteredProducts.length > 0 ? (
           <div className="w-full flex flex-nowrap justify-center">
@@ -92,8 +117,7 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
               <Link
                 to={`/product-detail/${product.product_id}`}
                 key={product.product_id}
-                className="product-card w-6/12 lg:w-3/12 mx-2 my-2 bg-white transition-shadow transform shadow-md hover:shadow-lg shadow-gray-500/50 hover:shadow-gray-500/50 
-  rounded-md overflow-hidden group flex flex-col justify-between"
+                className="product-card w-6/12 lg:w-3/12 mx-2 my-2 bg-white transition-shadow transform shadow-md hover:shadow-lg shadow-gray-500/50 hover:shadow-gray-500/50 rounded-md overflow-hidden group flex flex-col justify-between"
               >
                 <div className="img-container h-48 overflow-hidden">
                   <img
@@ -119,7 +143,7 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
                         addToCart(product);
                       }}
                     >
-                      <ShoppingCartIcon className="transition-colors group-hover:text-white mr-2" />
+                      <ShoppingCartIcon className="transition-colors group-hover:text-white" />
                       <span className="hidden group-hover:inline-block transition-opacity duration-300">
                         Agregar al carrito
                       </span>
@@ -151,6 +175,30 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
             </div>
           </div>
         )}
+        <Modal
+          open={isModalOpen}
+          onClose={closeModal}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <Box className="rounded" sx={modalStyle}>
+            <Typography id="modal-title" variant="h6" component="h2">
+              Aviso
+            </Typography>
+            <Typography id="modal-description" sx={{ mt: 2 }}>
+              {modalMessage}
+            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+              <button
+                onClick={closeModal}
+                className='py-2 px-4 bg-blue-500 text-white border-0 rounded cursor-pointer transition-all hover:bg-blue-600'
+              >
+                Cerrar
+              </button>
+            </Box>
+          </Box>
+        </Modal>
+
       </div>
     </section>
   );
