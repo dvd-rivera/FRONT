@@ -1,104 +1,164 @@
 .cart-section
-    width: 100%
-    +flex-center
-    margin-top: 80px
+    .cart-container
+        gap: 12px
+        +md
+            +flex-between
+        .cart-header
+            padding: 20px
+            width: 100%
+            +flex-start
 
-    h2
-        font-size: 24px
-        width: 100%
-        margin-bottom: 20px
-        color: #555
-        text-align: center
+            h2
+                font-weight: 700
+                font-size: 24px
+                text-align: left
+                width: 100%
+                +md
+                    font-size: 24px
+                +xxl
+                    font-size: 36px
+        .cart-body
+            background-color: white
+            border-radius: 12px
+            width: 100%
+            padding: 20px
+            gap: 12px
+            +flex-between
+            align-self: stretch
+            +md
+                width: 70% 
+            +xl
+                +flex-start
 
-    .cart-header, .cart-items, .cart-item
-        width: 100%
-        +flex-between
+            .cart-headers, .cart-items, .cart-item
+                width: 100%
+                +flex-between
 
-    .cart-item
-        margin-top: 12px
+            .cart-item
+                margin-top: 12px
 
-    .cart-header
-        padding: 10px 0
-        border-bottom: 1px solid #ddd
+            .cart-items
+                margin-bottom: 20px
 
+            .product-info
+                display: flex
+                align-items: center
+                flex: 2
 
-    .cart-header
-        font-weight: bold
-        color: #555
-        border-bottom: 2px solid #ddd
+            .product-thumbnail img
+                width: 50px
+                height: 50px
+                margin-right: 10px
 
-    .cart-items
-        margin-bottom: 20px
-
-    .product-info
-        display: flex
-        align-items: center
-        flex: 2
-
-    .product-thumbnail img
-        width: 50px
-        height: 50px
-        margin-right: 10px
-
-    .product-theme
-        font-size: 0.9em
-        color: #777
-
-
-    .product-quantity
-        display: flex
-        align-items: center
-        gap: 5px
-
-    .product-quantity button
-        width: 30px
-        height: 30px
-        font-size: 18px
-        text-align: center
-        cursor: pointer
-        background-color: #f0f0f0
-        border: 1px solid #ddd
-        border-radius: 5px
-
-    .cart-total
-        width: 100%
-        font-size: 18px
-        text-align: right
-        font-weight: bold
-        margin-top: 20px
-
-    .cart-footer
-        text-align: center
-        margin-top: 20px
-        color: #777
-
-    .checkout-button
-        padding: 10px 20px
-        font-size: 16px
-        border: 1px solid #555
-        border-radius: 20px
-        background-color: white
-        cursor: pointer
+            .product-theme
+                font-size: 0.9em
+                color: #777
 
 
-    .product-info-header, .product-info
-        width: 35%
-        text-align: left
+            .product-quantity
+                display: flex
+                align-items: center
+                gap: 5px
+
+                span
+                    padding: 4px 12px
+
+            .product-quantity button
+                width: 40px
+                height: 30px
+                font-size: 18px
+                text-align: center
+                cursor: pointer
+                background-color: rgba(0, 0, 0, 0)
+                border: 1px solid #ddd
+                border-radius: 5px
+                +flex-center
+
+            .cart-total
+                width: 100%
+                font-size: 18px
+                text-align: right
+                font-weight: bold
+                margin-top: 20px
+                
+        .cart-headers
+            font-weight: 700
+
+        .cart-side
+            width: 25%
+            padding: 12px
+            background-color: white
+            border-radius: 12px
+            align-self: stretch
+            +flex-center
+
+            p
+                font-size: 14px
+                text-align: center
+                color: #333
+
+            .total-price
+                margin-top: 12px
+
+            .cart-side-footer
+                width: 100%
+                +flex-center
+                gap: 12px
+                margin-top: 20px
+                align-self: flex-end
 
 
-    .product-id-header, .product-id
-        width: 10%
-        text-align: center
+                button
+                    width: 50%
+
+                .btn-vaciar
+                    font-size: 12px
+                    color: #aaa
+
+                .checkout-button
+                    background-color: $c-principal
+                    color: white
+                    padding: 8px 12px
+                    border-radius: 12px
+                    font-weight: 700
+                    font-size: 14px
+                    outline: 2px solid $c-principal
+                    background-color: white
+                    color: $c-principal
+                    +md
+                        font-size: 14px
+
+                    &:hover
+                        background-color: $c-principal
+                        color: white
+                        outline: none
+
+        .cart-footer
+            text-align: center
+            margin-top: 20px
+            color: #777
+
+        
 
 
-    .product-price-header, .product-price
-        width: 15%
-        text-align: center
-
-    .product-quantity-header, .product-quantity
-        width: 20%
+        .product-info-header, .product-info
+            width: 35%
+            text-align: left
 
 
-    .product-total-header, .product-total
-        width: 20%
-        text-align: right
+        .product-id-header, .product-id
+            width: 10%
+            text-align: center
+
+
+        .product-price-header, .product-price
+            width: 15%
+            text-align: center
+
+        .product-quantity-header, .product-quantity
+            width: 20%
+
+
+        .product-total-header, .product-total
+            width: 20%
+            text-align: right

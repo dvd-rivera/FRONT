@@ -111,6 +111,7 @@
             align-self: stretch
             overflow-y: scroll
             background-color: #eee
+            max-height: 500px
             +xl
                 width: 50%
                 flex-grow: 1
@@ -123,6 +124,7 @@
                 display: flex
                 gap: 12px
                 white-space: nowrap
+                margin-bottom: 24px
                 
 
                 .img-container
@@ -132,6 +134,10 @@
                     background-color: #fff
                     overflow: hidden
                     border-radius: 8px
+
+
+                    img
+                        width: 100%
 
                 .add-img
                     flex: 0 0 auto

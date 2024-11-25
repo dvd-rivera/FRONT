@@ -82,7 +82,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setIsLoadingLogin(true)
             setError(null)
 
-            const response = await fetch(`${BASE_URL}/happyart/api/v1/users`, {
+            const response = await fetch(`${BASE_URL}/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setError(null) // Limpiar errores previos
 
                 // Realizar la solicitud al backend
-                const response = await fetch(`${BASE_URL}/happyart/api/v1/users/${id}`, {
+                const response = await fetch(`${BASE_URL}/users/${id}`, {
                     method: 'GET',
                     headers: {
                         Authorization: token,

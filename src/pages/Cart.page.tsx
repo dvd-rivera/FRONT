@@ -21,7 +21,7 @@ const CartPage: React.FC = () => {
 
     // Función para aumentar la cantidad de un producto, limitado por el stock
     const increaseQuantity = (productId: number) => {
-        const product = products.find((p) => p.id === productId)
+        const product = products.find((p) => p.product_id === productId)
         const stock = product?.stock ?? 0
         const updatedCart = productsInCart.map((item) =>
             item.id === productId && item.cant < stock ? { ...item, cant: item.cant + 1 } : item
@@ -57,78 +57,100 @@ const CartPage: React.FC = () => {
     const totalCart = productsInCart.reduce((total, item) => total + item.price * item.cant, 0)
 
     return (
-        <section className="cart-section">
-            <div className="container flex-col">
-                <h2>Mi Carro de Compras</h2>
+        <section className="section cart-section">
+            <div className="container cart-container">
                 <div className="cart-header">
-                    <span className="product-info-header">Producto</span>
-                    <span className="product-id-header">ID</span>
-                    <span className="product-price-header">Precio</span>
-                    <span className="product-quantity-header">Cantidad</span>
-                    <span className="product-total-header">Total</span>
+                    <h2>Mi Carro de Compras</h2>
                 </div>
-                <div className="cart-items">
-                    {productsInCart.map((product) => (
-                        <div key={product.id} className="cart-item">
-                            <div className="product-info">
-                                <div className="product-thumbnail">
-                                    <img src={product.img} alt="Imagen del producto" />
+                <div className="cart-body">
+                    <div className="cart-headers">
+                        <span className="product-info-header">Producto</span>
+                        <span className="product-id-header">ID</span>
+                        <span className="product-price-header">Precio</span>
+                        <span className="product-quantity-header">Cantidad</span>
+                        <span className="product-total-header">Total</span>
+                    </div>
+                    <div className="cart-items">
+                        {productsInCart.map((product) => (
+                            <div key={product.id} className="cart-item">
+                                <div className="product-info">
+                                    <div className="product-thumbnail">
+                                        <img src={product.img} alt="Imagen del producto" />
+                                    </div>
+                                    <div>
+                                        <p>{product.name}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p>{product.name}</p>
+                                <div className="product-id">{product.id}</div>
+                                <div className="product-price">
+                                    ${product.price.toLocaleString('es-CL')}
+                                </div>
+                                <div className="product-quantity">
+                                    <button
+                                        className="btn-qty"
+                                        onClick={() => decreaseQuantity(product.id)}
+                                    >
+                                        -
+                                    </button>
+                                    <span>{product.cant}</span>
+                                    <button
+                                        className="btn-qty"
+                                        onClick={() => increaseQuantity(product.id)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <div className="product-total">
+                                    ${(product.price * product.cant).toLocaleString('cl-CL')}
                                 </div>
                             </div>
-                            <div className="product-id">{product.id}</div>
-                            <div className="product-price">${product.price}</div>
-                            <div className="product-quantity">
-                                <button onClick={() => decreaseQuantity(product.id)}>-</button>
-                                <span>{product.cant}</span>
-                                <button onClick={() => increaseQuantity(product.id)}>+</button>
-                            </div>
-                            <div className="product-total">${product.price * product.cant}</div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-                <div className="cart-total">
-                    <p>
-                        <strong>TOTAL</strong> ${totalCart}
-                    </p>
-                </div>
-                {/* Mostrar el botón " carro" solo si hay productos en el carrito */}
-                {productsInCart.length > 0 && (
-                    <>
-                        <Button variant="contained" onClick={handleOpenModal}>
-                            Vaciar carro
-                        </Button>
-                        <Dialog
-                            open={isModalOpen}
-                            onClose={handleCloseModal}
-                            aria-labelledby="vaciar-carro-title"
-                        >
-                            <DialogTitle id="vaciar-carro-title">Vaciar carrito</DialogTitle>
-                            <DialogContent>
-                                <DialogContentText>
-                                    ¿Estás seguro de que deseas vaciar el carrito?
-                                </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleCloseModal} color="primary">
-                                    Cancelar
-                                </Button>
-                                <Button onClick={clearCart} color="secondary" autoFocus>
-                                    Confirmar
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
-                    </>
-                )}
-                <div className="cart-footer">
+                <div className="cart-side">
                     <p>
                         Los pedidos se realizarán a través de WhatsApp donde podrá continuar con la
                         compra.
                     </p>
-                    <button className="checkout-button">Realizar Pedido</button>
+                    <div className="total-price">
+                        <strong style={{ paddingRight: '8px' }}>TOTAL</strong> $
+                        {totalCart.toLocaleString('cl-CL')}
+                    </div>
+
+                    <div className="cart-side-footer">
+                        {productsInCart.length > 0 && (
+                            <>
+                                <Button className="btn-vaciar" onClick={handleOpenModal}>
+                                    Vaciar carro
+                                </Button>
+                                <Dialog
+                                    open={isModalOpen}
+                                    onClose={handleCloseModal}
+                                    aria-labelledby="vaciar-carro-title"
+                                >
+                                    <DialogTitle id="vaciar-carro-title">
+                                        Vaciar carrito
+                                    </DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText>
+                                            ¿Estás seguro de que deseas vaciar el carrito?
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={handleCloseModal} color="primary">
+                                            Cancelar
+                                        </Button>
+                                        <Button onClick={clearCart} color="secondary" autoFocus>
+                                            Confirmar
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
+                            </>
+                        )}
+                        <button className="checkout-button">Realizar Pedido</button>
+                    </div>
                 </div>
+                <div className="cart-footer"></div>
             </div>
         </section>
     )

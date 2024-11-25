@@ -7,10 +7,12 @@ import ProductContextProvider from './context/products.context'
 import { CartContextProvider } from './context/cart.context'
 import UserContextProvider from './context/user.context'
 import CategoriesContextProvider from './context/categories.context'
+import ScrollToTop from './components/utils/scrollToTop.component'
 
 function App() {
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <CategoriesContextProvider>
                 <UserContextProvider>
                     <ProductContextProvider>

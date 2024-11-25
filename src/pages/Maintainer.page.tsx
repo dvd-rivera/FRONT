@@ -16,7 +16,9 @@ const MaintainerPage: React.FC = () => {
     const [productSelected, setProductSelected] = useState<ProductDefault | null>(null)
 
     useEffect(() => {
+        6
         if (!userStatus || userStatus.user?.role !== 'admin') navigate('/')
+        // if (!userStatus || userStatus.user?.role !== 'admin') navigate('/')
     }, [])
 
     useEffect(() => {
@@ -24,7 +26,7 @@ const MaintainerPage: React.FC = () => {
             const filteredProducts = products?.products.filter(
                 (product) => product.type_name === catSelected
             )
-            console.log('Productos filtrados:', filteredProducts)
+            // console.log('Productos filtrados:', filteredProducts)
             setProductsList(filteredProducts || []) // Si no hay productos filtrados, establece un array vacío
         } else {
             setProductsList([]) // Vacía la lista si no hay categoría seleccionada
@@ -37,7 +39,7 @@ const MaintainerPage: React.FC = () => {
 
     const handleProductClick = (product: ProductDefault) => {
         setProductSelected(product) // Selecciona un producto
-        console.log('Producto seleccionado:', product)
+        // console.log('Producto seleccionado:', product)
     }
 
     return (
@@ -92,7 +94,8 @@ const MaintainerPage: React.FC = () => {
                             <p>No hay productos para esta categoría.</p>
                         )}
                     </div>
-                    <MaintainerForm productSelected={productSelected}></MaintainerForm>
+
+                    <MaintainerForm product={productSelected}></MaintainerForm>
                 </div>
                 <div className="maintainer-footer"></div>
             </div>
