@@ -18,7 +18,6 @@ const MaintainerPage: React.FC = () => {
     useEffect(() => {
         6
         if (!userStatus || userStatus.user?.role !== 'admin') navigate('/')
-        // if (!userStatus || userStatus.user?.role !== 'admin') navigate('/')
     }, [])
 
     useEffect(() => {
@@ -26,6 +25,7 @@ const MaintainerPage: React.FC = () => {
             const filteredProducts = products?.products.filter(
                 (product) => product.type_name === catSelected
             )
+            setProductSelected(null)
             // console.log('Productos filtrados:', filteredProducts)
             setProductsList(filteredProducts || []) // Si no hay productos filtrados, establece un array vacío
         } else {
@@ -95,7 +95,10 @@ const MaintainerPage: React.FC = () => {
                         )}
                     </div>
 
-                    <MaintainerForm product={productSelected}></MaintainerForm>
+                    <MaintainerForm
+                        product={productSelected}
+                        catSelected={catSelected}
+                    ></MaintainerForm>
                 </div>
                 <div className="maintainer-footer"></div>
             </div>

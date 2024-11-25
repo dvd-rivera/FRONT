@@ -60,7 +60,7 @@
 
         .categories-container, .products-container
             text-align: left
-            max-height: 400px
+            max-height: 150px
             overflow: scroll
             overflow-x: hidden
             padding-right: 20px
@@ -71,6 +71,7 @@
             width: 48%
             +xl
                 width: 20%
+                max-height: 400px
 
                          
             
@@ -105,16 +106,29 @@
                     white-space: nowrap
                     text-overflow: ellipsis
 
+        .not-product
+            padding: 20px
+            width: 100%
+            align-self: stretch
+            overflow-y: scroll
+            background-color: #eee
+            +flex-center
+            +xl
+                width: 50%
+                flex-grow: 1
+                max-height: 400px
+
         .config-container
             padding: 20px
             width: 100%
             align-self: stretch
             overflow-y: scroll
             background-color: #eee
-            max-height: 500px
+            
             +xl
                 width: 50%
                 flex-grow: 1
+                max-height: 400px
 
             .images-container
                 width: 100%

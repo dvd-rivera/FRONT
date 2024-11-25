@@ -3,20 +3,17 @@ import { ProductDefault } from '../models/productos.interface'
 
 interface ProductEditorProps {
     product: ProductDefault | null
+    catSelected: string | null
 }
 
-const ProductEditor: React.FC<ProductEditorProps> = ({ product }) => {
+const ProductEditor: React.FC<ProductEditorProps> = ({ product, catSelected }) => {
     const [editedProduct, setEditedProduct] = useState<ProductDefault | null>(product)
-    const productType = editedProduct?.other_attributes.attributes_type
 
     // Actualiza `editedProduct` cada vez que `product` cambie
     useEffect(() => {
         setEditedProduct(product)
+        console.log(catSelected)
     }, [product])
-
-    useEffect(() => {
-        console.log(productType)
-    }, [productType])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -37,6 +34,21 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product }) => {
         }))
     }
 
+    const attributeFieldsMap: Record<string, string[]> = {
+        Agenda: ['sheets', 'size', 'sheet_type', 'laminate'],
+        Cuaderno: ['sheets', 'size', 'sheet_type', 'laminate', 'gr'],
+        Drawing_Notebook: ['sheets', 'tamaño', 'laminate'],
+        Keychain_Sticky_Notes: ['elastic_color'],
+        Bookmarks_Set: ['laminate'],
+        Stickers_Set: ['size'],
+        Wall_Calendar: ['size'],
+        Magnet_Calendar: ['size'],
+        Magnetic_Fridge: ['size'],
+        Painting: ['size'],
+        Resined_painting: ['size'],
+        Happy_Box: ['content'],
+    }
+
     const onSave = (editedProduct: ProductDefault) => {
         console.log('Producto Editado:', editedProduct)
     }
@@ -49,23 +61,36 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product }) => {
     }
 
     const renderDynamicFields = () => {
-        if (!editedProduct || !editedProduct.other_attributes) {
-            return null
+        if (!catSelected) {
+            return <p className="text-gray-500">No hay un tipo de categoría seleccionada.</p>
         }
 
-        const { other_attributes } = editedProduct
+        // Obtener los campos correspondientes al tipo seleccionado
+        const fieldsToRender = attributeFieldsMap[catSelected] || []
 
-        return Object.keys(other_attributes).map((key) => (
+        if (!fieldsToRender.length) {
+            return <p className="text-gray-500">No hay campos específicos para esta categoría.</p>
+        }
+
+        return fieldsToRender.map((key) => (
             <div key={key}>
                 <label className="block text-sm font-medium text-gray-700">{key}:</label>
                 <input
                     type={
-                        typeof other_attributes[key as keyof typeof other_attributes] === 'number'
+                        typeof editedProduct?.other_attributes[
+                            key as keyof (typeof editedProduct)['other_attributes']
+                        ] === 'number'
                             ? 'number'
                             : 'text'
                     }
                     name={key}
-                    value={other_attributes[key as keyof typeof other_attributes] as string}
+                    value={
+                        (
+                            editedProduct?.other_attributes[
+                                key as keyof (typeof editedProduct)['other_attributes']
+                            ] as string | number | undefined
+                        )?.toString() || ''
+                    }
                     onChange={(e) => handleAttributeChange(e, key)}
                     className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -74,7 +99,7 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product }) => {
     }
 
     if (!product) {
-        return <p className="text-gray-500">No hay un producto seleccionado.</p>
+        return <p className="not-product">No hay un producto seleccionado.</p>
     }
 
     return (

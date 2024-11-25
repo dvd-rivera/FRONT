@@ -160,6 +160,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setIsAuthenticated(true) // Usuario autenticado
             } catch (error: any) {
                 setError(error.message || 'Ocurrió un error durante la reconexión')
+                logout()
             } finally {
                 setIsLoadingLogin(true) // Finalizar carga
             }
