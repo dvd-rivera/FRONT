@@ -90,7 +90,7 @@ const UserMenu: React.FC = () => {
                         <MenuItem
                             onClick={() => {
                                 handleClose()
-                                navigate(`/category/mi-perfil`)
+                                navigate(`/profile`)
                             }}
                         >
                             Mis Datos
