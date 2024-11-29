@@ -1,6 +1,12 @@
 // UserContext.js
 import React, { createContext, useEffect, useState } from 'react'
-import { User, UserLoginData, UserReconected, UserRegisterData } from '../models/user.interface'
+import {
+    User,
+    UserLoginData,
+    UserProfile,
+    UserReconected,
+    UserRegisterData,
+} from '../models/user.interface'
 import { useNavigate } from 'react-router-dom'
 import BASE_URL from '../../env'
 
@@ -14,6 +20,8 @@ interface UserContextType {
     isLoadingLogin: boolean
     error: string | null
     setError: React.Dispatch<React.SetStateAction<string | null>>
+    getUserProfile: (token: string, id: string) => void
+    userProfile: UserProfile | null | undefined
 }
 
 export const UserContext = createContext<UserContextType | undefined>(undefined)
@@ -23,6 +31,7 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [isLoadingLogin, setIsLoadingLogin] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [userProfile, setUserProfile] = useState<UserProfile | null | undefined>()
 
     const navigate = useNavigate()
 
@@ -169,6 +178,67 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }
 
+    const getUserProfile = async () => {
+        // Verificar si el token y el ID están almacenados
+        const token = localStorage.getItem('Auth')
+        const id = localStorage.getItem('id')
+
+        let data: UserProfile = {
+            userid: 0,
+            firstname: '',
+            lastname: '',
+            email: '',
+            password: 'asd',
+            phone: 0,
+            addresses: [],
+            role: 'user',
+        }
+
+        if (token && id && user?.firstName == undefined) {
+            try {
+                setIsLoadingLogin(true)
+                setError(null) // Limpiar errores previos
+
+                // Realizar la solicitud al backend
+                const response = await fetch(`${BASE_URL}/happyart/api/v1/users/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+
+                if (!response.ok) {
+                    // Manejar errores del backend
+                    const errorResponse = await response.json()
+                    throw new Error(errorResponse.message || 'Error al reconectar')
+                }
+
+                const reconectData: Array<UserProfile> = await response.json() // Procesar la respuesta
+
+                // Configurar datos del usuario
+                data = {
+                    userid: reconectData[0].userid,
+                    firstname: reconectData[0].firstname,
+                    lastname: reconectData[0].lastname,
+                    email: reconectData[0].email,
+                    password: reconectData[0].password,
+                    phone: reconectData[0].phone,
+                    addresses: reconectData[0].addresses,
+                    role: reconectData[0].role,
+                }
+
+                setUserProfile(data) // Guardar el usuario en el estado
+            } catch (error: any) {
+                setError(error.message || 'Ocurrió un error durante la reconexión')
+                logout()
+            } finally {
+                setIsLoadingLogin(true) // Finalizar carga
+            }
+        } else {
+            console.warn('No hay token o ID almacenado en localStorage.')
+        }
+    }
+
     useEffect(() => {
         if (!isAuthenticated || user?.firstName == undefined) {
             reconect()
@@ -187,6 +257,8 @@ const UserContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setError,
                 register,
                 reconect,
+                getUserProfile,
+                userProfile,
             }}
         >
             {children}

@@ -4,11 +4,11 @@ import HeroSection from '../components/home-components/hero-section.component'
 
 const HomePage: React.FC = () => {
     return (
-        <section className="section flex flex-col mt-24">
+        <section className="section flex flex-col mt-24 home-section">
             <HeroSection />
-            <h2>Productos Destacados</h2>
-            <CardSection productType="Agenda" />
-            <CardSection productType="Cuaderno" />
+            <h2 className="home-subtitle">Productos Destacados</h2>
+            <CardSection productType="Agenda" limit="4" isRandom />
+            <CardSection productType="Cuaderno" limit="4" />
         </section>
     )
 }

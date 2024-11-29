@@ -43,3 +43,14 @@ export interface UserReconected {
     addresses: Array<address>
     role: 'user' | 'admin'
 }
+
+export interface UserProfile {
+    userid: number
+    firstname: string
+    lastname: string
+    email: string
+    password: string
+    phone: number
+    addresses: Array<address>
+    role: 'user' | 'admin'
+}

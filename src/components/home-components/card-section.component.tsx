@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { ProductContext } from '../../context/products.context'
 import { CartContext } from '../../context/cart.context'
 import { ProductDefault } from '../../models/productos.interface'
@@ -19,48 +20,62 @@ const modalStyle = {
     p: 4,
 }
 
-interface ProductCardsProps {
-    productType: string
+const shuffleArray = (array: ProductDefault[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[array[i], array[j]] = [array[j], array[i]]
+    }
+    return array
 }
 
-const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
+interface ProductCardsProps {
+    limit: string
+    isRandom?: boolean
+}
+
+const CardSection: React.FC<ProductCardsProps> = ({ limit, isRandom = false }) => {
     const { products, isLoadingAllProducts } = useContext(ProductContext) || { products: [] }
     const cartContext = useContext(CartContext)
     const [filteredProducts, setFilteredProducts] = useState<ProductDefault[]>([])
     const [open, setOpen] = useState(false)
-    const [visible, setVisible] = useState(false) // Control para la transición
+    const [visible, setVisible] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState('')
-    const [modalMessage, setModalMessage] = useState('') // Mensaje para el modal
-    const [isModalOpen, setIsModalOpen] = useState(false) // Control del estado del modal
+    const [modalMessage, setModalMessage] = useState('')
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [searchParams] = useSearchParams()
+
+    const limitNumber = parseInt(limit, 10)
 
     useEffect(() => {
         if (isLoadingAllProducts) {
             console.log('No hay productos disponibles o productos aún no cargados.')
         } else {
-            const filtered = products.filter((product) => product.type_name === productType)
+            const typeFromUrl = searchParams.get('productType') // Rescatar el tipo desde la URL
+            const filterType = typeFromUrl || '' // Usar el tipo de la URL o un valor vacío si no existe
+            let filtered = products.filter((product) => product.type_name === filterType)
+
+            if (isRandom) {
+                filtered = shuffleArray(filtered)
+            }
             setFilteredProducts(filtered)
         }
-    }, [products, productType, isLoadingAllProducts])
+    }, [products, isLoadingAllProducts, isRandom, searchParams])
 
     const handleClick = (message: string) => {
         setSnackbarMessage(message)
         setOpen(true)
-
-        // Espera un ciclo de renderizado para aplicar la clase `opacity-100`
         setTimeout(() => {
             setVisible(true)
         }, 10)
-
-        // Después de un tiempo, inicia la transición de salida y desmonta el snackbar
         setTimeout(() => {
             setVisible(false)
-            setTimeout(() => setOpen(false), 300) // Espera que termine la transición de salida
+            setTimeout(() => setOpen(false), 300)
         }, 2500)
     }
 
     const closeSnackbar = () => {
-        setVisible(false) // Inicia la transición de opacidad
-        setTimeout(() => setOpen(false), 300) // Espera que termine antes de desmontar
+        setVisible(false)
+        setTimeout(() => setOpen(false), 300)
     }
 
     const openModal = (message: string) => {
@@ -76,11 +91,6 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
         if (!cartContext) {
             console.error('Cart context is undefined')
             return
-        }
-
-        const formatPrice = (price: number) => {
-            let stringPrice = price.toString()
-            return stringPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
         }
 
         const { productsInCart = [], setProductsInCart } = cartContext
@@ -117,12 +127,12 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
         <section className="products-cards-section md:w-9/12 mx-auto py-8">
             <div className="container mx-auto px-4">
                 {filteredProducts.length > 0 ? (
-                    <div className="w-full flex flex-nowrap justify-center">
-                        {filteredProducts.map((product) => (
+                    <div className="w-full flex flex-wrap justify-center">
+                        {filteredProducts.slice(0, limitNumber).map((product) => (
                             <Link
                                 to={`/product-detail/${product.product_id}`}
                                 key={product.product_id}
-                                className="product-card w-6/12 lg:w-3/12 mx-2 my-2 bg-white transition-shadow transform shadow-md hover:shadow-lg shadow-gray-500/50 hover:shadow-gray-500/50 rounded-md overflow-hidden group flex flex-col justify-between"
+                                className="product-card w-1/2 sm:w-6/12 lg:w-3/12 mx-2 my-2 bg-white transition-shadow transform shadow-md hover:shadow-lg shadow-gray-500/50 hover:shadow-gray-500/50 rounded-md overflow-hidden group flex flex-col justify-between"
                             >
                                 <div className="img-container h-48 overflow-hidden">
                                     <img
@@ -135,7 +145,7 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
                                 </div>
                                 <div className="product-card-body p-4">
                                     <h3 className="product-name text-sm uppercase text-gray-400">
-                                        {productType}
+                                        {product.type_name}
                                     </h3>
                                     <h2 className="product-description font-bold text-md mb-2 text-gray-600">
                                         {product.description}
@@ -166,46 +176,6 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType }) => {
                 ) : (
                     <p className="text-center text-gray-500">No hay productos disponibles</p>
                 )}
-                {open && (
-                    <div
-                        className={`snackbar-container z-20 fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 ${
-                            visible ? 'opacity-100' : 'opacity-0'
-                        }`}
-                    >
-                        <div className="flex items-center justify-between">
-                            <span>{snackbarMessage}</span>
-                            <button
-                                className="ml-4 text-white hover:text-gray-300 focus:outline-none"
-                                onClick={closeSnackbar}
-                            >
-                                &times;
-                            </button>
-                        </div>
-                    </div>
-                )}
-                <Modal
-                    open={isModalOpen}
-                    onClose={closeModal}
-                    aria-labelledby="modal-title"
-                    aria-describedby="modal-description"
-                >
-                    <Box className="rounded" sx={modalStyle}>
-                        <Typography id="modal-title" variant="h6" component="h2">
-                            Aviso
-                        </Typography>
-                        <Typography id="modal-description" sx={{ mt: 2 }}>
-                            {modalMessage}
-                        </Typography>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-                            <button
-                                onClick={closeModal}
-                                className="py-2 px-4 bg-blue-500 text-white border-0 rounded cursor-pointer transition-all hover:bg-blue-600"
-                            >
-                                Cerrar
-                            </button>
-                        </Box>
-                    </Box>
-                </Modal>
             </div>
         </section>
     )

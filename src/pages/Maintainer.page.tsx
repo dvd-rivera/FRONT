@@ -86,7 +86,7 @@ const MaintainerPage: React.FC = () => {
                                     }`} // Clase "selected" si este producto está seleccionado
                                     onClick={() => handleProductClick(product)} // Maneja el clic en el producto
                                 >
-                                    <h4>{product.theme_name.name[0]}</h4>
+                                    <h4>{product.theme_name.name}</h4>
                                     <p>{product.description}</p>
                                 </div>
                             ))

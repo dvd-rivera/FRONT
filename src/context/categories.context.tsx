@@ -13,7 +13,7 @@ const CategoriesContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     const getCategories = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/happyart/api/v1/products/pTypes`, {
+            const response = await fetch(`${BASE_URL}/happyart/api/v1/types/allTypes`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

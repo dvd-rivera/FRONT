@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { ProductContext } from '../context/products.context'
+import CardSection from '../components/home-components/card-section.component'
 // import { CartContext } from '../context/cart.context'
 
 const CategoriesPage: React.FC = ({}) => {
@@ -10,7 +11,7 @@ const CategoriesPage: React.FC = ({}) => {
 
     return (
         <section className="section">
-            <div className="container">hola</div>
+            <CardSection limit="5" />
         </section>
     )
 }

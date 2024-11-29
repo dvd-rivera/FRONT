@@ -1,5 +1,5 @@
 // App.js
-import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom'
+import { Route, Routes, BrowserRouter } from 'react-router-dom'
 import routes from './routes'
 import Nav from './components/Nav.component'
 import FooterComponent from './components/Footer.component'
