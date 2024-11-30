@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { ProductContext } from '../../context/products.context'
 import { CartContext } from '../../context/cart.context'
 import { ProductDefault } from '../../models/productos.interface'
@@ -29,11 +29,12 @@ const shuffleArray = (array: ProductDefault[]) => {
 }
 
 interface ProductCardsProps {
+    productType?: string
     limit: string
     isRandom?: boolean
 }
 
-const CardSection: React.FC<ProductCardsProps> = ({ limit, isRandom = false }) => {
+const CardSection: React.FC<ProductCardsProps> = ({ productType, limit, isRandom = false }) => {
     const { products, isLoadingAllProducts } = useContext(ProductContext) || { products: [] }
     const cartContext = useContext(CartContext)
     const [filteredProducts, setFilteredProducts] = useState<ProductDefault[]>([])
@@ -42,16 +43,21 @@ const CardSection: React.FC<ProductCardsProps> = ({ limit, isRandom = false }) =
     const [snackbarMessage, setSnackbarMessage] = useState('')
     const [modalMessage, setModalMessage] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [searchParams] = useSearchParams()
+    const pageParams = useParams()
 
     const limitNumber = parseInt(limit, 10)
+
+    // Obtén el tipo desde la URL (si existe)
+    const typeFromUrl = pageParams?.id
+
+    console.log(pageParams)
 
     useEffect(() => {
         if (isLoadingAllProducts) {
             console.log('No hay productos disponibles o productos aún no cargados.')
         } else {
-            const typeFromUrl = searchParams.get('productType') // Rescatar el tipo desde la URL
-            const filterType = typeFromUrl || '' // Usar el tipo de la URL o un valor vacío si no existe
+            console.log(typeFromUrl) // Rescatar el tipo desde la URL
+            const filterType = productType || typeFromUrl || '' // Priorizar el valor de la prop productType
             let filtered = products.filter((product) => product.type_name === filterType)
 
             if (isRandom) {
@@ -59,7 +65,7 @@ const CardSection: React.FC<ProductCardsProps> = ({ limit, isRandom = false }) =
             }
             setFilteredProducts(filtered)
         }
-    }, [products, isLoadingAllProducts, isRandom, searchParams])
+    }, [products, isLoadingAllProducts, isRandom, productType, typeFromUrl])
 
     const handleClick = (message: string) => {
         setSnackbarMessage(message)
@@ -176,6 +182,47 @@ const CardSection: React.FC<ProductCardsProps> = ({ limit, isRandom = false }) =
                 ) : (
                     <p className="text-center text-gray-500">No hay productos disponibles</p>
                 )}
+                {open && (
+                    <div
+                        className={`snackbar-container z-20 fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 ${
+                            visible ? 'opacity-100' : 'opacity-0'
+                        }`}
+                    >
+                        <div className="flex items-center justify-between">
+                            <span>{snackbarMessage}</span>
+                            <button
+                                className="ml-4 text-white hover:text-gray-300 focus:outline-none"
+                                onClick={closeSnackbar}
+                            >
+                                &times;
+                            </button>
+                        </div>
+                    </div>
+                )}
+                <Modal
+                    open={isModalOpen}
+                    onClose={closeModal}
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-description"
+                >
+                    <Box className="rounded" sx={modalStyle}>
+                        <Typography id="modal-title" variant="h6" component="h2">
+                            Aviso
+                        </Typography>
+                        <Typography id="modal-description" sx={{ mt: 2 }}>
+                            {modalMessage}
+                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+                            <button
+                                onClick={closeModal}
+                                className="py-2 px-4 bg-blue-500 text-white border-0 rounded cursor-pointer transition-all hover:bg-blue
+                            -600"
+                            >
+                                Cerrar
+                            </button>
+                        </Box>
+                    </Box>
+                </Modal>
             </div>
         </section>
     )

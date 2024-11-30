@@ -3,7 +3,7 @@ import { ProductContext } from '../context/products.context'
 import CardSection from '../components/home-components/card-section.component'
 // import { CartContext } from '../context/cart.context'
 
-const CategoriesPage: React.FC = ({}) => {
+const CategoriesPage: React.FC = () => {
     const productContext = useContext(ProductContext)
     // const cartContext = useContext(CartContext)
 
