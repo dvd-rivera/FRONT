@@ -1,14 +1,22 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { UserContext } from '../context/user.context'
 
 const ProfilePage: React.FC = () => {
     const userContext = useContext(UserContext)
+
+    useEffect(() => {
+        if (userContext) {
+            userContext.getUserProfile()
+        }
+    }, [userContext])
 
     if (!userContext) {
         return <div className="text-red-500 font-bold">Error: Contexto no disponible</div>
     }
 
     const { userProfile } = userContext
+    console.log(userProfile);
+
 
     return (
         <div className="min-h-screen py-10 mt-16">
@@ -34,7 +42,7 @@ const ProfilePage: React.FC = () => {
                         </p>
                         <div>
                             <h2 className="text-xl font-medium text-gray-800 mb-2">Direcciones:</h2>
-                            {userProfile.addresses && userProfile.addresses.length > 0 ? (
+                            {userProfile && userProfile.addresses && Array.isArray(userProfile.addresses) ? (
                                 <ul className="list-disc pl-6 space-y-2">
                                     {userProfile.addresses.map((address, index) => (
                                         <li key={index} className="text-gray-600">

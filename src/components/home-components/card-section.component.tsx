@@ -23,7 +23,7 @@ const modalStyle = {
 const shuffleArray = (array: ProductDefault[]) => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
-        ;[array[i], array[j]] = [array[j], array[i]]
+            ;[array[i], array[j]] = [array[j], array[i]]
     }
     return array
 }
@@ -131,6 +131,7 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType, limit, isRandom
 
     return (
         <section className="products-cards-section md:w-9/12 mx-auto py-8">
+            
             <div className="container mx-auto px-4">
                 {filteredProducts.length > 0 ? (
                     <div className="w-full flex flex-wrap justify-center">
@@ -138,43 +139,44 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType, limit, isRandom
                             <Link
                                 to={`/product-detail/${product.product_id}`}
                                 key={product.product_id}
-                                className="product-card w-1/2 sm:w-6/12 lg:w-3/12 mx-2 my-2 bg-white transition-shadow transform shadow-md hover:shadow-lg shadow-gray-500/50 hover:shadow-gray-500/50 rounded-md overflow-hidden group flex flex-col justify-between"
+                                className="product-card w-6/12 lg:w-3/12 my-2 px-2"
                             >
-                                <div className="img-container h-48 overflow-hidden">
-                                    <img
-                                        src={product.img}
-                                        alt={`Imagen de ${
-                                            product.theme_name?.name?.[0] || 'Producto'
-                                        }`}
-                                        className="w-full h-full object-cover transition-transform duration-300 object-top group-hover:scale-105"
-                                    />
-                                </div>
-                                <div className="product-card-body p-4">
-                                    <h3 className="product-name text-sm uppercase text-gray-400">
-                                        {product.type_name}
-                                    </h3>
-                                    <h2 className="product-description font-bold text-md mb-2 text-gray-600">
-                                        {product.description}
-                                    </h2>
-                                </div>
-                                <div className="relative flex justify-between items-center px-3 py-2 group">
-                                    <div className="flex w-full transition-all duration-300 group-hover:w-full">
-                                        <button
-                                            className="flex items-center justify-center bg-white border border-blue-500 text-blue-500 h-10 px-3 rounded transition-all duration-300 transform group-hover:w-full group-hover:bg-blue-500 group-hover:text-white focus:outline-none"
-                                            onClick={(e) => {
-                                                e.preventDefault()
-                                                addToCart(product)
-                                            }}
-                                        >
-                                            <ShoppingCartIcon className="transition-colors group-hover:text-white" />
-                                            <span className="hidden group-hover:inline-block transition-opacity duration-300">
-                                                Agregar al carrito
-                                            </span>
-                                        </button>
+                                <div className="bg-white transition-shadow transform shadow-md hover:shadow-lg shadow-gray-500/50 hover:shadow-gray-500/50 rounded-md overflow-hidden group flex flex-col justify-between h-full">
+                                    <div className="img-container h-48 overflow-hidden">
+                                        <img
+                                            src={product.img}
+                                            alt={`Imagen de ${product.theme_name?.name?.[0] || 'Producto'
+                                                }`}
+                                            className="w-full h-full object-cover transition-transform duration-300 object-top group-hover:scale-105"
+                                        />
                                     </div>
-                                    <p className="product-price text-3xl font-bold text-right text-blue-500 transition-opacity duration-300 group-hover:opacity-0 group-hover:delay-300 group-hover:hidden">
-                                        ${product.price.toLocaleString('es-CL')}
-                                    </p>
+                                    <div className="product-card-body p-4">
+                                        <h3 className="product-name text-sm uppercase text-gray-400">
+                                            {product.type_name}
+                                        </h3>
+                                        <h2 className="product-description font-bold text-md mb-2 text-gray-600">
+                                            {product.description}
+                                        </h2>
+                                    </div>
+                                    <div className="relative flex justify-between items-center px-3 py-2 group">
+                                        <div className="flex w-full transition-all duration-300 group-hover:w-full">
+                                            <button
+                                                className="flex items-center justify-center bg-white border border-blue-500 text-blue-500 h-10 px-3 rounded transition-all duration-300 transform group-hover:w-full group-hover:bg-blue-500 group-hover:text-white focus:outline-none"
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    addToCart(product)
+                                                }}
+                                            >
+                                                <ShoppingCartIcon className="transition-colors group-hover:text-white" />
+                                                <span className="hidden group-hover:inline-block transition-opacity duration-300">
+                                                    Agregar al carrito
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <p className="product-price text-3xl font-bold text-right text-blue-500 transition-opacity duration-300 group-hover:opacity-0 group-hover:delay-300 group-hover:hidden">
+                                            ${product.price.toLocaleString('es-CL')}
+                                        </p>
+                                    </div>
                                 </div>
                             </Link>
                         ))}
@@ -184,9 +186,8 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType, limit, isRandom
                 )}
                 {open && (
                     <div
-                        className={`snackbar-container z-20 fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 ${
-                            visible ? 'opacity-100' : 'opacity-0'
-                        }`}
+                        className={`snackbar-container z-20 fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0'
+                            }`}
                     >
                         <div className="flex items-center justify-between">
                             <span>{snackbarMessage}</span>
