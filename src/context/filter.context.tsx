@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
 
-// Define el tipo de los datos del contexto (puedes ajustarlo según tu caso)
 interface FilterContextType {
   filters: string[];
   setFilters: React.Dispatch<React.SetStateAction<string[]>>;

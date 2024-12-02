@@ -16,9 +16,8 @@ const MaintainerPage: React.FC = () => {
     const [productSelected, setProductSelected] = useState<ProductDefault | null>(null)
 
     useEffect(() => {
-        6
         if (!userStatus || userStatus.user?.role !== 'admin') navigate('/')
-    }, [])
+    }, [userStatus?.user?.role])
 
     useEffect(() => {
         if (catSelected) {

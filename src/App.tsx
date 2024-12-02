@@ -8,16 +8,17 @@ import { CartContextProvider } from './context/cart.context'
 import UserContextProvider from './context/user.context'
 import CategoriesContextProvider from './context/categories.context'
 import ScrollToTop from './components/utils/scrollToTop.component'
+import { MaintainerProvider } from './context/maintainer.contex'
 
 function App() {
     return (
         <BrowserRouter>
+        <MaintainerProvider>
             <ScrollToTop />
             <CategoriesContextProvider>
                 <UserContextProvider>
                     <ProductContextProvider>
                         <CartContextProvider>
-                            {/* <Router> */}
                             <Nav />
                             <Routes>
                                 {routes.map((route, index) => (
@@ -25,11 +26,11 @@ function App() {
                                 ))}
                             </Routes>
                             <FooterComponent />
-                            {/* </Router> */}
                         </CartContextProvider>
                     </ProductContextProvider>
                 </UserContextProvider>
             </CategoriesContextProvider>
+        </MaintainerProvider>
         </BrowserRouter>
     )
 }

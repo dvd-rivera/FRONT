@@ -42,6 +42,10 @@ const ProductContextProvider: React.FC<{ children: React.ReactNode }> = ({ child
         loadAllProducts()
     }, [])
 
+    // const updateStockProducts = (product, NewproductInCart) => {
+
+    // }
+
     return (
         <ProductContext.Provider
             value={{

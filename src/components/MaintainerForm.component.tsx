@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { ProductDefault } from '../models/productos.interface'
+import { MaintainerContext } from '../context/maintainer.contex'
 
 interface ProductEditorProps {
     product: ProductDefault | null
@@ -8,7 +9,7 @@ interface ProductEditorProps {
 
 const ProductEditor: React.FC<ProductEditorProps> = ({ product, catSelected }) => {
     const [editedProduct, setEditedProduct] = useState<ProductDefault | null>(product)
-
+    const maintainerContext = useContext(MaintainerContext)
     // Actualiza `editedProduct` cada vez que `product` cambie
     useEffect(() => {
         setEditedProduct(product)
@@ -51,6 +52,7 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, catSelected }) =
 
     const onSave = (editedProduct: ProductDefault) => {
         console.log('Producto Editado:', editedProduct)
+        maintainerContext?.updateProduct(editedProduct)
     }
 
     const handleSubmit = (e: React.FormEvent) => {
