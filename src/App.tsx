@@ -13,24 +13,28 @@ import { MaintainerProvider } from './context/maintainer.contex'
 function App() {
     return (
         <BrowserRouter>
-        <MaintainerProvider>
-            <ScrollToTop />
-            <CategoriesContextProvider>
-                <UserContextProvider>
-                    <ProductContextProvider>
-                        <CartContextProvider>
-                            <Nav />
-                            <Routes>
-                                {routes.map((route, index) => (
-                                    <Route key={index} path={route.path} element={route.element} />
-                                ))}
-                            </Routes>
-                            <FooterComponent />
-                        </CartContextProvider>
-                    </ProductContextProvider>
-                </UserContextProvider>
-            </CategoriesContextProvider>
-        </MaintainerProvider>
+            <ProductContextProvider>
+                <MaintainerProvider>
+                    <ScrollToTop />
+                    <CategoriesContextProvider>
+                        <UserContextProvider>
+                            <CartContextProvider>
+                                <Nav />
+                                <Routes>
+                                    {routes.map((route, index) => (
+                                        <Route
+                                            key={index}
+                                            path={route.path}
+                                            element={route.element}
+                                        />
+                                    ))}
+                                </Routes>
+                                <FooterComponent />
+                            </CartContextProvider>
+                        </UserContextProvider>
+                    </CategoriesContextProvider>
+                </MaintainerProvider>
+            </ProductContextProvider>
         </BrowserRouter>
     )
 }

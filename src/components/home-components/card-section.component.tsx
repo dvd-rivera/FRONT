@@ -23,7 +23,7 @@ const modalStyle = {
 const shuffleArray = (array: ProductDefault[]) => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
-            ;[array[i], array[j]] = [array[j], array[i]]
+        ;[array[i], array[j]] = [array[j], array[i]]
     }
     return array
 }
@@ -50,13 +50,10 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType, limit, isRandom
     // Obtén el tipo desde la URL (si existe)
     const typeFromUrl = pageParams?.id
 
-    console.log(pageParams)
-
     useEffect(() => {
         if (isLoadingAllProducts) {
             console.log('No hay productos disponibles o productos aún no cargados.')
         } else {
-            console.log(typeFromUrl) // Rescatar el tipo desde la URL
             const filterType = productType || typeFromUrl || '' // Priorizar el valor de la prop productType
             let filtered = products.filter((product) => product.type_name === filterType)
 
@@ -131,7 +128,6 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType, limit, isRandom
 
     return (
         <section className="products-cards-section md:w-9/12 mx-auto py-8">
-            
             <div className="container mx-auto px-4">
                 {filteredProducts.length > 0 ? (
                     <div className="w-full flex flex-wrap justify-center">
@@ -144,9 +140,10 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType, limit, isRandom
                                 <div className="bg-white transition-shadow transform shadow-md hover:shadow-lg shadow-gray-500/50 hover:shadow-gray-500/50 rounded-md overflow-hidden group flex flex-col justify-between h-full">
                                     <div className="img-container h-48 overflow-hidden">
                                         <img
-                                            src={product.img}
-                                            alt={`Imagen de ${product.theme_name?.name?.[0] || 'Producto'
-                                                }`}
+                                            src={product.img[0]}
+                                            alt={`Imagen de ${
+                                                product.theme_name?.name?.[0] || 'Producto'
+                                            }`}
                                             className="w-full h-full object-cover transition-transform duration-300 object-top group-hover:scale-105"
                                         />
                                     </div>
@@ -186,8 +183,9 @@ const CardSection: React.FC<ProductCardsProps> = ({ productType, limit, isRandom
                 )}
                 {open && (
                     <div
-                        className={`snackbar-container z-20 fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0'
-                            }`}
+                        className={`snackbar-container z-20 fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300 ${
+                            visible ? 'opacity-100' : 'opacity-0'
+                        }`}
                     >
                         <div className="flex items-center justify-between">
                             <span>{snackbarMessage}</span>

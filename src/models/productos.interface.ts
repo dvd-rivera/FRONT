@@ -63,9 +63,35 @@ export interface ProductDefault {
     description: string
     price: number
     stock: number
-    img: string
+    img: Array<string>
     type_name: string
     theme_name: Theme
+    type_id: number
+    theme_id: number
+    other_attributes:
+        | Diary
+        | Notebook
+        | Drawing_Notebook
+        | Keychain_Sticky_Notes
+        | Bookmarks_Set
+        | Stickers_Set
+        | Wall_Calendar
+        | Magnet_Calendar
+        | Magnet_Calendar
+        | Magnetic_Fridge
+        | Painting
+        | Resined_painting
+        | Happy_Box
+}
+
+export interface UpdateProductDefault {
+    product_id: number
+    description: string
+    price: number
+    stock: number
+    img: Array<string>
+    type_id: number
+    theme_id: number
     other_attributes:
         | Diary
         | Notebook

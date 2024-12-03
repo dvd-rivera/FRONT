@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { ProductDefault } from '../models/productos.interface'
+import { ProductDefault, UpdateProductDefault } from '../models/productos.interface'
 import { MaintainerContext } from '../context/maintainer.contex'
 
 interface ProductEditorProps {
@@ -10,6 +10,7 @@ interface ProductEditorProps {
 const ProductEditor: React.FC<ProductEditorProps> = ({ product, catSelected }) => {
     const [editedProduct, setEditedProduct] = useState<ProductDefault | null>(product)
     const maintainerContext = useContext(MaintainerContext)
+
     // Actualiza `editedProduct` cada vez que `product` cambie
     useEffect(() => {
         setEditedProduct(product)
@@ -35,6 +36,14 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, catSelected }) =
         }))
     }
 
+    const handleImageChange = (index: number, newValue: string) => {
+        setEditedProduct((prev) => {
+            const updatedImages = [...(prev?.img || [])]
+            updatedImages[index] = newValue
+            return { ...prev!, img: updatedImages }
+        })
+    }
+
     const attributeFieldsMap: Record<string, string[]> = {
         Agenda: ['sheets', 'size', 'sheet_type', 'laminate'],
         Cuaderno: ['sheets', 'size', 'sheet_type', 'laminate', 'gr'],
@@ -50,7 +59,7 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, catSelected }) =
         Happy_Box: ['content'],
     }
 
-    const onSave = (editedProduct: ProductDefault) => {
+    const onSave = (editedProduct: UpdateProductDefault) => {
         console.log('Producto Editado:', editedProduct)
         maintainerContext?.updateProduct(editedProduct)
     }
@@ -58,8 +67,25 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, catSelected }) =
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (editedProduct) {
-            onSave(editedProduct)
+            let formatedEditedProduct: UpdateProductDefault = {
+                description: editedProduct.description,
+                price: editedProduct.price,
+                stock: editedProduct.stock,
+                other_attributes: editedProduct.other_attributes,
+                img: editedProduct.img,
+                type_id: editedProduct.type_id,
+                theme_id: editedProduct.theme_id,
+                product_id: editedProduct.product_id,
+            }
+            onSave(formatedEditedProduct)
         }
+    }
+
+    const addImg = () => {
+        setEditedProduct((prev) => ({
+            ...prev!,
+            img: [...(prev?.img || []), ''],
+        }))
     }
 
     const renderDynamicFields = () => {
@@ -108,10 +134,24 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, catSelected }) =
         <div className="config-container">
             <h2 className="text-xl font-bold mb-4">Editar Producto</h2>
             <div className="images-container">
-                <div className="img-container">
-                    <img src={product.img} alt="Producto" />
+                {editedProduct?.img.map((img, index) => (
+                    <div className="img-input-container">
+                        <div key={index} className="img-container">
+                            {/* La imagen se actualiza dinámicamente con el nuevo valor */}
+                            <img src={img} alt={`Producto ${index + 1}`} className="mb-2" />
+                        </div>
+                        <input
+                            type="text"
+                            value={img}
+                            onChange={(e) => handleImageChange(index, e.target.value)}
+                            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="URL de la imagen"
+                        />
+                    </div>
+                ))}
+                <div onClick={addImg} className="add-img">
+                    +
                 </div>
-                <div className="add-img">+</div>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
