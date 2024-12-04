@@ -92,7 +92,7 @@ const ProductDetailPage: React.FC = () => {
         <>
           <div className="flex">
             <div className="w-7/12">
-              <img className="w-full px-12 mt-2" src={product.img} alt="" />
+              <img className="w-full px-12 mt-2" src={product.img[0]} alt="" />
             </div>
             <div className="w-5/12">
               <p className="text-gray-400 text-xl my-1">{product.type_name}</p>

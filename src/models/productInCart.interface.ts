@@ -3,5 +3,5 @@ export interface ProductInCart {
     name: string
     price: number
     cant: number
-    img: string
+    img: Array<string>
 }

@@ -5,8 +5,12 @@ const ProfilePage: React.FC = () => {
     const userContext = useContext(UserContext)
 
     useEffect(() => {
-        if (userContext) {
-            userContext.getUserProfile() // Asegúrate de que este método sea necesario
+        const token = localStorage.getItem('Auth')
+        const id = localStorage.getItem('id')
+        if (token && id) {
+            if (userContext) {
+                userContext.getUserProfile(token, id) // Asegúrate de que este método sea necesario
+            }
         }
     }, [userContext])
 

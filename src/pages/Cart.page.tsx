@@ -11,7 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 const CartPage: React.FC = () => {
     const cartContext = useContext(CartContext)
     const { products } = useContext(ProductContext) || { products: [] } // Usar productos para obtener el stock
-    const [isModalOpen, setModalOpen] = useState(false) // Estado para el modal
+    const [ isModalOpen, setModalOpen] = useState(false) // Estado para el modal
 
     if (!cartContext) {
         return <p>Error: Carrito no disponible.</p>
@@ -53,6 +53,8 @@ const CartPage: React.FC = () => {
         handleCloseModal() // Cerrar el modal
     }
 
+
+
     // Calcular el total general del carrito
     const totalCart = productsInCart.reduce((total, item) => total + item.price * item.cant, 0)
 
@@ -75,7 +77,7 @@ const CartPage: React.FC = () => {
                             <div key={product.id} className="cart-item">
                                 <div className="product-info">
                                     <div className="product-thumbnail">
-                                        <img src={product.img} alt="Imagen del producto" />
+                                        <img src={product.img[0]} alt="Imagen del producto" />
                                     </div>
                                     <div>
                                         <p>{product.name}</p>
@@ -83,7 +85,7 @@ const CartPage: React.FC = () => {
                                 </div>
                                 <div className="product-id">{product.id}</div>
                                 <div className="product-price">
-                                    ${product.price.toLocaleString('es-CL')}
+                                    $ {product.price.toLocaleString('cl-CL')}
                                 </div>
                                 <div className="product-quantity">
                                     <button
